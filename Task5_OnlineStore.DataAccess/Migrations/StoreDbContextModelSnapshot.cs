@@ -49,8 +49,8 @@ namespace Task5OnlineStore.DataAccess.Migrations
                     b.Property<int>("BrandId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Cost")
-                        .HasColumnType("int");
+                    b.Property<double>("Cost")
+                        .HasColumnType("float");
 
                     b.Property<string>("Description")
                         .IsRequired()

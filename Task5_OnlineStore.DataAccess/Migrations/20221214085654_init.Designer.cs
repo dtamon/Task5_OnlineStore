@@ -11,7 +11,7 @@ using Task5_OnlineStore.DataAccess.Context;
 namespace Task5OnlineStore.DataAccess.Migrations
 {
     [DbContext(typeof(StoreDbContext))]
-    [Migration("20221213143819_init")]
+    [Migration("20221214085654_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -52,8 +52,8 @@ namespace Task5OnlineStore.DataAccess.Migrations
                     b.Property<int>("BrandId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Cost")
-                        .HasColumnType("int");
+                    b.Property<double>("Cost")
+                        .HasColumnType("float");
 
                     b.Property<string>("Description")
                         .IsRequired()
