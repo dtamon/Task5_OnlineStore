@@ -33,12 +33,12 @@ namespace Task5_OnlineStore.DataAccess.Repositories.Repositories
 
         public async Task<IEnumerable<Product>> GetAllProductsAsync()
         {
-            return await _context.Products.ToListAsync();
+            return await _context.Products.Include(x => x.Brand).ToListAsync();
         }
 
         public async Task<Product?> GetProductByIdAsync(int id)
         {
-            return await _context.Products.FirstOrDefaultAsync(x => x.Id == id);
+            return await _context.Products.Include(x => x.Brand).FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task UpdateProductAsync(Product product)

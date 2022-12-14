@@ -11,7 +11,7 @@ using Task5_OnlineStore.DataAccess.Context;
 namespace Task5OnlineStore.DataAccess.Migrations
 {
     [DbContext(typeof(StoreDbContext))]
-    [Migration("20221214085654_init")]
+    [Migration("20221214094139_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -59,7 +59,7 @@ namespace Task5OnlineStore.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("ProductName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
