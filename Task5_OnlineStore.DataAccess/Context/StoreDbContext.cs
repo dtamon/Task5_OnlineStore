@@ -13,6 +13,8 @@ namespace Task5_OnlineStore.DataAccess.Context
         public StoreDbContext(DbContextOptions options) : base(options)
         {
         }
+
+        public DbSet<User> Users { get; set; }
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Product> Products { get; set; }
     }
