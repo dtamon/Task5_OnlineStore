@@ -32,11 +32,6 @@ namespace Task5_OnlineStore.DataAccess.Seeder
                 _context.Products.AddRange(GetProducts());
                 _context.SaveChanges();
             }
-            if (!_context.Users.Any())
-            {
-                _context.Users.AddRange(GetUsers());
-                _context.SaveChanges();
-            }
         }
 
         private IEnumerable<Brand> GetBrands()
@@ -68,25 +63,6 @@ namespace Task5_OnlineStore.DataAccess.Seeder
                     Description = "The Rode NT1-A has become legendary in the lower price segment over the last few years. It's impossible now to imagine (home) studios and other recording setups anywhere in the world without the large-diaphragm microphone in its distinctive silver finish.", 
                     Cost = 191.45, BrandId = 3}
             };
-        }
-
-        private IEnumerable<User> GetUsers()
-        {
-            CreatePasswordHash("password1", out byte[] passwordHash, out byte[] passwordSalt);
-
-            return new List<User>()
-            {
-                new User() { Email = "user1@gmail.com", PasswordHash = passwordHash, PasswordSalt = passwordSalt}
-            };
-        }
-
-        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
-        {
-            using (var hmac = new HMACSHA512())
-            {
-                passwordSalt = hmac.Key;
-                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-            }
         }
     }
 }

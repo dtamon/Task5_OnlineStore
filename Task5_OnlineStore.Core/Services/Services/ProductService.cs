@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Task5_OnlineStore.Core.Dto;
+using Task5_OnlineStore.Core.Exceptions;
 using Task5_OnlineStore.Core.Services.Interfaces;
 using Task5_OnlineStore.DataAccess.Entities;
 using Task5_OnlineStore.DataAccess.Repositories.Interfaces;
@@ -40,7 +41,10 @@ namespace Task5_OnlineStore.Core.Services.Services
 
         public async Task<ProductDto> GetProductByIdAsync(int id)
         {
-            return _mapper.Map<ProductDto>(await _productRepository.GetProductByIdAsync(id));
+            var product = _mapper.Map<ProductDto>(await _productRepository.GetProductByIdAsync(id));
+            if (product == null)
+                throw new NotFoundException("Product not found");
+            return product;
         }
 
         public async Task UpdateProductAsync(ProductDto product)

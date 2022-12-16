@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Task5_OnlineStore.DataAccess.Entities
+namespace Task5_OnlineStore.Core.Dto
 {
-    public class User
+    public class RegisterUserDto
     {
-        public int Id { get; set; }
         public string Email { get; set; }
+        public string Password { get; set; }
+        public string ConfirmPassword { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string PasswordHash { get; set; }
+
     }
 }

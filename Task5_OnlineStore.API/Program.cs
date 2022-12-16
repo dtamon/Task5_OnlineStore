@@ -1,10 +1,17 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Task5_OnlineStore.Core;
+using Task5_OnlineStore.Core.Dto;
+using Task5_OnlineStore.Core.Dto.Validators;
+using Task5_OnlineStore.Core.Middleware;
 using Task5_OnlineStore.Core.Services.Interfaces;
 using Task5_OnlineStore.Core.Services.Services;
-using Task5_OnlineStore.Core.Validators;
 using Task5_OnlineStore.DataAccess.Context;
+using Task5_OnlineStore.DataAccess.Entities;
 using Task5_OnlineStore.DataAccess.Repositories.Interfaces;
 using Task5_OnlineStore.DataAccess.Repositories.Repositories;
 using Task5_OnlineStore.DataAccess.Seeder;
@@ -13,10 +20,33 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddFluentValidation();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+//Authentication
+builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+var authenticationSettings = new AuthenticationSettings();
+builder.Configuration.GetSection("Authentication").Bind(authenticationSettings);
+
+builder.Services.AddSingleton(authenticationSettings);
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = "Bearer";
+    options.DefaultScheme = "Bearer";
+    options.DefaultChallengeScheme = "Bearer";
+}).AddJwtBearer(cfg =>
+{
+    cfg.RequireHttpsMetadata = false;
+    cfg.SaveToken = true;
+    cfg.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidIssuer = authenticationSettings.JwtIssuer,
+        ValidAudience = authenticationSettings.JwtIssuer,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authenticationSettings.JwtKey)),
+    };
+});
 
 //Context
 builder.Services.AddDbContext<StoreDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("connection")));
@@ -24,19 +54,19 @@ builder.Services.AddDbContext<StoreDbContext>(options => options.UseSqlServer(bu
 //Automapper
 builder.Services.AddAutoMapper(typeof(Task5_OnlineStore.Core.StoreMappingProfile).Assembly);
 
+//Error handling
+builder.Services.AddScoped<ErrorHandlingMiddleware>();
+
 //Repositories
-builder.Services.AddScoped<IBrandRepository, BrandRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 
 //Services 
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IAccountService, AccountService>();
 
 //Validators
-builder.Services.AddFluentValidationAutoValidation(config =>
-{
-    config.DisableDataAnnotationsValidation = true;
-})
-    .AddValidatorsFromAssemblyContaining<ProductValidator>();
+builder.Services.AddScoped<IValidator<RegisterUserDto>, RegisterUserValidator>();
 
 //Seeder 
 builder.Services.AddScoped<StoreSeeder>();
@@ -53,6 +83,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<ErrorHandlingMiddleware>();
+app.UseAuthentication();
 app.UseHttpsRedirection();
 
 //enable CORS
