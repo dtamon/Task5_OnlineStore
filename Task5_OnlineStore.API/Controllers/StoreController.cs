@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Task5_OnlineStore.Core.Dto;
 using Task5_OnlineStore.Core.Services.Interfaces;
 
@@ -53,6 +54,13 @@ namespace Task5_OnlineStore.API.Controllers
         {
             await _productService.DeleteProductAsync(id);
             return Ok("Deleted Successfully");
+        }
+
+        [HttpPost("purchase")]
+        [Authorize]
+        public async Task<ActionResult> BuyCartProducts(IEnumerable<ProductDto> cart)
+        {
+            return Ok("Purchase made successfully");
         }
     }
 }
