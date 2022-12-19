@@ -13,6 +13,6 @@ namespace Task5_OnlineStore.Core.Dto
         public string BrandName { get; set; }
         public string ProductName { get; set; }
         public string Description { get; set; }
-        public string Cost { get; set; }
+        public double Cost { get; set; }
     }
 }
