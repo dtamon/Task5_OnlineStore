@@ -1,9 +1,11 @@
 import { Button, Container, Nav, Navbar as NavbarBs } from "react-bootstrap"
 import { NavLink } from "react-router-dom"
 import { useShoppingCart } from "../context/ShoppingCartContext"
+import { useUser } from "../context/UserContext"
 
 export function Navbar() {
     const { openCart, cartQuantity } = useShoppingCart()
+    const { openForm } = useUser()
     return (
         <NavbarBs sticky="top" className="bg-white shadow-sm shadow mb-3">
             <Container>
@@ -39,13 +41,12 @@ export function Navbar() {
                     )}
                 </Button>
                 <Button
-                    // onClick={openForm}
+                    onClick={openForm}
                     style={{ width: "3.6rem", height: "3.6rem", position: "relative" }}
                     variant="outline-none">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="currentColor"
-                        class="bi bi-person-fill"
                         viewBox="0 0 16 16"
                         id="IconChangeColor">
                         <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" id="mainIconPathAttribute"></path>
