@@ -1,9 +1,9 @@
-import { Offcanvas, Stack } from "react-bootstrap";
+import { Offcanvas, Stack, Button } from "react-bootstrap";
 import { useShoppingCart } from "../context/ShoppingCartContext";
 import { CartItem } from "./CartItem";
 
 export function ShoppingCart({ isOpen }) {
-    const { closeCart, cartItems } = useShoppingCart()
+    const { closeCart, cartItems, cartQuantity } = useShoppingCart()
     return (
         <Offcanvas show={isOpen} onHide={closeCart} placement="end">
             <Offcanvas.Header closeButton>
@@ -11,6 +11,11 @@ export function ShoppingCart({ isOpen }) {
             </Offcanvas.Header>
             <Offcanvas.Body>
                 <Stack gap={3}>
+                    {cartQuantity <= 0 && (
+                        <div className="ms-auto fs-5 text-muted">
+                            There are no products in cart
+                        </div>
+                    )}
                     {cartItems.map(item =>
                         <CartItem key={item.id} {...item} />
                     )}
@@ -19,6 +24,7 @@ export function ShoppingCart({ isOpen }) {
                             return total + (cartItem.cost || 0) * cartItem.quantity
                         }, 0)).toFixed(2)}$
                     </div>
+                    <Button className="ms-auto">Buy</Button>
                 </Stack>
             </Offcanvas.Body>
         </Offcanvas>
