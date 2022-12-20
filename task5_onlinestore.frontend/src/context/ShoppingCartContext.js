@@ -20,10 +20,10 @@ export function ShoppingCartProvider({ children }) {
     function getItemQuantity(id) {
         return cartItems.find(item => item.id === id)?.quantity || 0
     }
-    function increaseCartQuantity(id, brandName, productName, cost) {
+    function increaseCartQuantity(id, brandName, productName, description, cost) {
         setCartItems(currItems => {
             if (currItems.find(item => item.id === id) == null) {
-                return [...currItems, { id, brandName, productName, cost, quantity: 1 }]
+                return [...currItems, { id, brandName, productName, description, cost, quantity: 1 }]
             } else {
                 return currItems.map(item => {
                     if (item.id === id) {
@@ -55,6 +55,9 @@ export function ShoppingCartProvider({ children }) {
             return currItems.filter(item => item.id !== id)
         })
     }
+    function clearCart() {
+        setCartItems([])
+    }
 
     return (
         <ShoppingCartContext.Provider
@@ -63,6 +66,7 @@ export function ShoppingCartProvider({ children }) {
                 increaseCartQuantity,
                 decreaseCartQuantity,
                 removeFromCart,
+                clearCart,
                 openCart,
                 closeCart,
                 cartItems,

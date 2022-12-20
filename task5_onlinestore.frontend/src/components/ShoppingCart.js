@@ -1,9 +1,11 @@
 import { Offcanvas, Stack, Button } from "react-bootstrap";
 import { useShoppingCart } from "../context/ShoppingCartContext";
+import { useUser } from "../context/UserContext";
 import { CartItem } from "./CartItem";
 
 export function ShoppingCart({ isOpen }) {
-    const { closeCart, cartItems, cartQuantity } = useShoppingCart()
+    const { closeCart, cartItems, cartQuantity, clearCart } = useShoppingCart()
+    const { token, openForm } = useUser()
     return (
         <Offcanvas show={isOpen} onHide={closeCart} placement="end">
             <Offcanvas.Header closeButton>
@@ -24,9 +26,35 @@ export function ShoppingCart({ isOpen }) {
                             return total + (cartItem.cost || 0) * cartItem.quantity
                         }, 0)).toFixed(2)}$
                     </div>
-                    <Button className="ms-auto">Buy</Button>
+                    {cartQuantity > 0 && (
+                        <Button className="ms-auto" onClick={() => makePurchase()}>Buy</Button>
+                    )}
+
                 </Stack>
             </Offcanvas.Body>
         </Offcanvas>
     )
+
+    function makePurchase() {
+        if (token !== undefined) {
+            fetch('/api/store/purchase', {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(cartItems)
+            })
+                .then(res => res.text())
+                .then(result => {
+                    clearCart()
+                    alert(result)
+                }, (error) => {
+                    alert(error)
+                })
+        } else {
+            openForm()
+        }
+
+    }
 }

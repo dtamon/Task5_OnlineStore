@@ -24,6 +24,7 @@ export function UserProvider({ children }) {
     }
 
     function changeUserToken(token) {
+        // console.log(token)
         setToken(token)
     }
 

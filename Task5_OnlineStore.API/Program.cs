@@ -8,13 +8,13 @@ using Task5_OnlineStore.Core;
 using Task5_OnlineStore.Core.Dto;
 using Task5_OnlineStore.Core.Dto.Validators;
 using Task5_OnlineStore.Core.Middleware;
+using Task5_OnlineStore.Core.Seeder;
 using Task5_OnlineStore.Core.Services.Interfaces;
 using Task5_OnlineStore.Core.Services.Services;
 using Task5_OnlineStore.DataAccess.Context;
 using Task5_OnlineStore.DataAccess.Entities;
 using Task5_OnlineStore.DataAccess.Repositories.Interfaces;
 using Task5_OnlineStore.DataAccess.Repositories.Repositories;
-using Task5_OnlineStore.DataAccess.Seeder;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -69,12 +69,12 @@ builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IValidator<RegisterUserDto>, RegisterUserValidator>();
 
 //Seeder 
-builder.Services.AddScoped<StoreSeeder>();
+builder.Services.AddScoped<DataSeeder>();
 
 var app = builder.Build();
 
 //Seed data
-app.Services.CreateScope().ServiceProvider.GetRequiredService<StoreSeeder>().Seed();
+app.Services.CreateScope().ServiceProvider.GetRequiredService<DataSeeder>().Seed();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

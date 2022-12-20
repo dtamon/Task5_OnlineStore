@@ -2,6 +2,7 @@
 
 const context = [
     "/api/store",
+    "/api/account"
 ];
 
 module.exports = function (app) {

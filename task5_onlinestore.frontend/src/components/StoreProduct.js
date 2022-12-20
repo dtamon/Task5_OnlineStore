@@ -16,7 +16,7 @@ export function StoreProduct({ id, brandId, brandName, productName, description,
                     {description}
                 </Card.Text>
                 <div className="mt-auto">
-                    <Button onClick={() => increaseCartQuantity(id, brandName, productName, cost)}>
+                    <Button onClick={() => increaseCartQuantity(id, brandName, productName, description, cost)}>
                         Add To Cart
                     </Button>
                 </div>
