@@ -5,7 +5,7 @@ import { useUser } from "../context/UserContext"
 
 export function Navbar() {
     const { openCart, cartQuantity } = useShoppingCart()
-    const { openForm } = useUser()
+    const { openLoginForm } = useUser()
     return (
         <NavbarBs sticky="top" className="bg-white shadow-sm shadow mb-3">
             <Container>
@@ -41,7 +41,7 @@ export function Navbar() {
                     )}
                 </Button>
                 <Button
-                    onClick={openForm}
+                    onClick={openLoginForm}
                     style={{ width: "3.6rem", height: "3.6rem", position: "relative" }}
                     variant="outline-none">
                     <svg

@@ -5,7 +5,7 @@ import { CartItem } from "./CartItem";
 
 export function ShoppingCart({ isOpen }) {
     const { closeCart, cartItems, cartQuantity, clearCart } = useShoppingCart()
-    const { token, openForm } = useUser()
+    const { token, openLoginForm } = useUser()
     return (
         <Offcanvas show={isOpen} onHide={closeCart} placement="end">
             <Offcanvas.Header closeButton>
@@ -45,16 +45,22 @@ export function ShoppingCart({ isOpen }) {
                 },
                 body: JSON.stringify(cartItems)
             })
-                .then(res => res.text())
-                .then(result => {
-                    clearCart()
+                .then(res => {
+                    if (!res.ok) throw new Error("Unauthorized")
+                    else {
+                        clearCart()
+                        return res.text()
+                    }
+                })
+                .then((result) => {
                     alert(result)
                 }, (error) => {
                     alert(error)
                 })
         } else {
-            openForm()
+            openLoginForm()
         }
+
 
     }
 }

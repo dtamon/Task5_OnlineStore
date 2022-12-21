@@ -57,6 +57,7 @@ namespace Task5_OnlineStore.API.Controllers
         }
 
         [HttpPost("purchase")]
+        [Authorize]
         public async Task<IActionResult> BuyCartProducts(IEnumerable<ProductDto> cart)
         {
             return Ok("Purchase made successfully");

@@ -13,7 +13,7 @@ namespace Task5_OnlineStore.Core.Dto.Validators
         public RegisterUserValidator(StoreDbContext dbContext) 
         {
             RuleFor(x => x.Email)
-                .NotEmpty()
+                .NotEmpty().WithMessage("Email is required")
                 .EmailAddress().WithMessage("Email has incorrect format")
                 .Custom((value, context) =>
                 {
@@ -25,16 +25,17 @@ namespace Task5_OnlineStore.Core.Dto.Validators
                 });
 
             RuleFor(x => x.Password)
-                .MinimumLength(6);
+                .NotEmpty().WithMessage("Password is required")
+                .MinimumLength(6).WithMessage("Password must have at least 6 characters");
 
             RuleFor(x => x.ConfirmPassword)
                 .Equal(e => e.Password).WithMessage("Password and Confirm Password doesn't match");
 
             RuleFor(x => x.FirstName)
-                .NotEmpty();
+                .NotEmpty().WithMessage("First Name is required");
 
             RuleFor(x => x.LastName)
-                .NotEmpty();
+                .NotEmpty().WithMessage("Last Name is required");
         }
     }
 }

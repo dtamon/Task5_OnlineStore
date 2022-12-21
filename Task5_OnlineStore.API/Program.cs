@@ -66,7 +66,11 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 
 //Validators
-builder.Services.AddScoped<IValidator<RegisterUserDto>, RegisterUserValidator>();
+builder.Services.AddFluentValidationAutoValidation(config =>
+{
+    config.DisableDataAnnotationsValidation = true;
+})
+    .AddValidatorsFromAssemblyContaining<RegisterUserValidator>();
 
 //Seeder 
 builder.Services.AddScoped<DataSeeder>();

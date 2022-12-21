@@ -1,5 +1,6 @@
 import { createContext, useContext, useState } from "react"
 import { LoginForm } from "../components/account/LoginForm"
+import { RegisterForm } from "../components/account/RegisterForm"
 const UserContext = createContext({})
 
 export function useUser() {
@@ -7,42 +8,52 @@ export function useUser() {
 }
 
 export function UserProvider({ children }) {
-    const [isOpen, setIsOpen] = useState(false)
+    const [isOpenLoginForm, setIsOpenLoginForm] = useState(false)
+    const [isOpenRegisterForm, setIsOpenRegisterForm] = useState(false)
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
     const [token, setToken] = useState()
+    const [confirmPassword, setConfirmPassword] = useState()
+    const [firstName, setFirstName] = useState()
+    const [lastName, setLastName] = useState()
 
-    const openForm = () => setIsOpen(true)
-    const closeForm = () => setIsOpen(false)
+    const openLoginForm = () => setIsOpenLoginForm(true)
+    const closeLoginForm = () => setIsOpenLoginForm(false)
 
-    function changeUserEmail(email) {
-        setEmail(email)
+    const openRegisterForm = () => {
+        setEmail()
+        setPassword()
+        setConfirmPassword()
+        setFirstName()
+        setLastName()
+        setIsOpenRegisterForm(true)
     }
-
-    function changeUserPassword(password) {
-        setPassword(password)
-    }
-
-    function changeUserToken(token) {
-        // console.log(token)
-        setToken(token)
-    }
+    const closeRegisterForm = () => setIsOpenRegisterForm(false)
 
     return (
         <UserContext.Provider
             value={{
-                changeUserEmail,
-                changeUserPassword,
-                changeUserToken,
-                openForm,
-                closeForm,
+                setEmail,
+                setPassword,
+                setToken,
+                setConfirmPassword,
+                setFirstName,
+                setLastName,
+                openLoginForm,
+                closeLoginForm,
+                openRegisterForm,
+                closeRegisterForm,
                 email,
                 password,
                 token,
+                confirmPassword,
+                firstName,
+                lastName
             }}
         >
             {children}
-            <LoginForm isOpen={isOpen} />
+            <LoginForm isOpenLoginForm={isOpenLoginForm} />
+            <RegisterForm isOpenRegisterForm={isOpenRegisterForm} />
         </UserContext.Provider>
     )
 }
