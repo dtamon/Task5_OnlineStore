@@ -18,7 +18,7 @@ App allowing adding products to shopping cart and buying them for authorized use
 ````    
 #### 2. Generate schema by running `update-database` command in Package Manager Console (make sure you've picked `Task4_ReadingList.DataAccess` as default project) ![PMC](https://i.imgur.com/J02MJcO.png) 
 #### 3. Database should be filled automatically with [DataSeeder](https://github.com/dtamon/Task5_OnlineStore/blob/master/Task5_OnlineStore.Core/Seeder/DataSeeder.cs)
-#### 4. The way I run the project is to open whole solution in Visual Studio and run `Task5_OnlineStore.API` project there, open `Task5_OnlineStore.Frontend` project in Visual Studio Code and start it with command `npm start` from terminal and going to localhost/3000 address in the browser
+#### 4. The way I run the project is to open whole solution in Visual Studio and run `Task5_OnlineStore.API` project there, open `Task5_OnlineStore.Frontend` project in Visual Studio Code and start it with command `npm start` from terminal and going to https://localhost:3000/ address in the browser
 #### 5. Before the first launch it may be required to install react libraries (`react-router-dom`, `bootstrap` and `react-bootstrap`) by running commands `npm i <name_of_library1> <name_of_library2>...` or just `npm i` in terminal
 
 
