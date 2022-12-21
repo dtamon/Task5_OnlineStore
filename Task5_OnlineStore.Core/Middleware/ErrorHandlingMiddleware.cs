@@ -19,12 +19,12 @@ namespace Task5_OnlineStore.Core.Middleware
             catch (BadRequestException badRequestException)
             {
                 context.Response.StatusCode = 400;
-                context.Response.WriteAsync(badRequestException.Message);
+                await context.Response.WriteAsync(badRequestException.Message);
             }
             catch (NotFoundException notFoundException)
             {
                 context.Response.StatusCode = 404;
-                context.Response.WriteAsync(notFoundException.Message);
+                await context.Response.WriteAsync(notFoundException.Message);
             }
             catch (Exception e)
             {

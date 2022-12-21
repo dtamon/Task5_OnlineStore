@@ -28,7 +28,7 @@ namespace Task5_OnlineStore.Core.Services.Services
             _authenticationSettings = authenticationSettings;
         }
 
-        public void RegisterUser(RegisterUserDto dto)
+        public async Task RegisterUser(RegisterUserDto dto)
         {
             var newUser = new User()
             {
@@ -38,12 +38,12 @@ namespace Task5_OnlineStore.Core.Services.Services
             };
             var hashedPassword = _passwordHasher.HashPassword(newUser, dto.Password);
             newUser.PasswordHash = hashedPassword;
-            _accountRepository.RegisterUser(newUser);
+            await _accountRepository.RegisterUser(newUser);
         }
 
-        public string GenerateJwt(LoginUserDto dto)
+        public async Task<string> GenerateJwt(LoginUserDto dto)
         {
-            var user = _accountRepository.GetUserByEmail(dto.Email);
+            var user = await _accountRepository.GetUserByEmail(dto.Email);
 
             if (user == null)
                 throw new BadRequestException("Invalid username or password");

@@ -9,7 +9,7 @@ namespace Task5_OnlineStore.DataAccess.Repositories.Interfaces
 {
     public interface IAccountRepository
     {
-        User GetUserByEmail(string email);
-        void RegisterUser(User user);
+        Task<User?> GetUserByEmail(string email);
+        Task RegisterUser(User user);
     }
 }

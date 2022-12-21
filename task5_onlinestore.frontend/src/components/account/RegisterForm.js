@@ -96,6 +96,7 @@ export function RegisterForm({ isOpenRegisterForm }) {
                     openLoginForm()
                     closeRegisterForm()
                     resetForm()
+                    alert(result)
                 }
             }, (error) => {
                 alert(error)

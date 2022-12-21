@@ -19,14 +19,14 @@ namespace Task5_OnlineStore.API.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> RegisterUser(RegisterUserDto dto)
         {
-            _accountService.RegisterUser(dto);
-            return Ok();
+            await _accountService.RegisterUser(dto);
+            return Ok("Successfull registration");
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> LoginUser(LoginUserDto dto)
         {
-            string token = _accountService.GenerateJwt(dto);
+            string token = await _accountService.GenerateJwt(dto);
             return Ok(token);
         }
     }

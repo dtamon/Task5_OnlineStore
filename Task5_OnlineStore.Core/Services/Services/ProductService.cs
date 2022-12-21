@@ -31,6 +31,10 @@ namespace Task5_OnlineStore.Core.Services.Services
         public async Task DeleteProductAsync(int id)
         {
             var product = await _productRepository.GetProductByIdAsync(id);
+            if (product == null)
+            {
+                throw new NotFoundException("Product not found");
+            }
             _productRepository.DeleteProduct(product);
         }
 

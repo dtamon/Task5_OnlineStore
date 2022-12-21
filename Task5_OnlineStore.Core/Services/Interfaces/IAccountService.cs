@@ -9,8 +9,8 @@ namespace Task5_OnlineStore.Core.Services.Interfaces
 {
     public interface IAccountService
     {
-        void RegisterUser(RegisterUserDto dto);
-        string GenerateJwt(LoginUserDto dto);
+        Task RegisterUser(RegisterUserDto dto);
+        Task<string> GenerateJwt(LoginUserDto dto);
 
     }
 }
