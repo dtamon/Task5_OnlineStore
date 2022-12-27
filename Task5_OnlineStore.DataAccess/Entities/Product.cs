@@ -14,5 +14,9 @@ namespace Task5_OnlineStore.DataAccess.Entities
         public double Cost { get; set; }
         public int BrandId { get; set; }
         public Brand Brand { get; set; }
+        public int CategoryId { get; set; }
+        public Category Category { get; set; }
+
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }

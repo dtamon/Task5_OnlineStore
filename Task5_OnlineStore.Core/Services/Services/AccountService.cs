@@ -35,6 +35,7 @@ namespace Task5_OnlineStore.Core.Services.Services
                 Email = dto.Email,
                 FirstName = dto.FirstName,
                 LastName = dto.LastName,
+                RoleId = dto.RoleId,
             };
             var hashedPassword = _passwordHasher.HashPassword(newUser, dto.Password);
             newUser.PasswordHash = hashedPassword;

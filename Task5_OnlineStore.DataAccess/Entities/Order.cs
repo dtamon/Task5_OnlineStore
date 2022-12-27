@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace Task5_OnlineStore.DataAccess.Entities
 {
-    public class Brand
+    public class Order
     {
         public int Id { get; set; }
-        public string BrandName { get; set; }
-        public virtual ICollection<Product> Products { get;}
+        public int UserId { get; set; }
+        public User User { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
     }
 }

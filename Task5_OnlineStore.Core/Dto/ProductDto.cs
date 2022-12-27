@@ -14,5 +14,8 @@ namespace Task5_OnlineStore.Core.Dto
         public string ProductName { get; set; }
         public string Description { get; set; }
         public double Cost { get; set; }
+        public int CategoryId { get; set; }
+        public string CategoryName { get; set; }
+
     }
 }
