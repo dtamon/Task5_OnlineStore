@@ -25,10 +25,10 @@ namespace Task5_OnlineStore.DataAccess.Repositories.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public void DeleteProduct(Product product)
+        public async Task DeleteProductAsync(Product product)
         {
             _context.Products.Remove(product);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Product>> GetAllProductsAsync()

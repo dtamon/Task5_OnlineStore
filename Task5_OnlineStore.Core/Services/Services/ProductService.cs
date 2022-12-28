@@ -35,7 +35,7 @@ namespace Task5_OnlineStore.Core.Services.Services
             {
                 throw new NotFoundException("Product not found");
             }
-            _productRepository.DeleteProduct(product);
+            await _productRepository.DeleteProductAsync(product);
         }
 
         public async Task<IEnumerable<ProductDto>> GetAllProductsAsync()

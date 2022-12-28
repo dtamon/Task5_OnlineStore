@@ -11,6 +11,6 @@ namespace Task5_OnlineStore.DataAccess.Entities
         public int Id { get; set; }
         public int UserId { get; set; }
         public User User { get; set; }
-        public virtual ICollection<Product> Products { get; set; }
+        public virtual ICollection<Product> Products { get; set; } = new List<Product>();
     }
 }

@@ -13,6 +13,6 @@ namespace Task5_OnlineStore.DataAccess.Repositories.Interfaces
         Task<Product?> GetProductByIdAsync(int id);
         Task CreateProductAsync(Product product);
         Task UpdateProductAsync(Product product);
-        void DeleteProduct(Product product);
+        Task DeleteProductAsync(Product product);
     }
 }
