@@ -17,7 +17,7 @@ namespace Task5_OnlineStore.Core.Dto.Validators
                 .EmailAddress().WithMessage("Email has incorrect format")
                 .Custom((value, context) =>
                 {
-                    var emailInUse = dbContext.Users.Any(u => u.Email == value);
+                    var emailInUse = dbContext.Users.Any(x => x.Email == value);
                     if (emailInUse)
                     {
                         context.AddFailure("Email", "Email is taken");
@@ -29,7 +29,7 @@ namespace Task5_OnlineStore.Core.Dto.Validators
                 .MinimumLength(6).WithMessage("Password must have at least 6 characters");
 
             RuleFor(x => x.ConfirmPassword)
-                .Equal(e => e.Password).WithMessage("Password and Confirm Password doesn't match");
+                .Equal(x => x.Password).WithMessage("Password and Confirm Password doesn't match");
 
             RuleFor(x => x.FirstName)
                 .NotEmpty().WithMessage("First Name is required");

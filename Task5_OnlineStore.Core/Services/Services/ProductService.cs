@@ -8,6 +8,8 @@ using Task5_OnlineStore.Core.Dto;
 using Task5_OnlineStore.Core.Exceptions;
 using Task5_OnlineStore.Core.Services.Interfaces;
 using Task5_OnlineStore.DataAccess.Entities;
+using Task5_OnlineStore.DataAccess.PagedResult;
+using Task5_OnlineStore.DataAccess.Queries;
 using Task5_OnlineStore.DataAccess.Repositories.Interfaces;
 
 namespace Task5_OnlineStore.Core.Services.Services
@@ -38,9 +40,19 @@ namespace Task5_OnlineStore.Core.Services.Services
             await _productRepository.DeleteProductAsync(product);
         }
 
-        public async Task<IEnumerable<ProductDto>> GetAllProductsAsync()
+        public async Task<PagedResult<ProductDto>> GetAllProductsAsync(ProductQuery query)
         {
-            return _mapper.Map<IEnumerable<ProductDto>>(await _productRepository.GetAllProductsAsync());
+            var pagedResultProduct = await _productRepository.GetAllProductsAsync(query);
+
+            var pagedResultProductDto = new PagedResult<ProductDto>(
+                _mapper.Map <List<ProductDto>>(pagedResultProduct.Items),
+                pagedResultProduct.TotalPages,
+                pagedResultProduct.ItemsFrom,
+                pagedResultProduct.ItemsTo,
+                pagedResultProduct.TotalItemsCount
+                );
+
+            return pagedResultProductDto;
         }
 
         public async Task<ProductDto> GetProductByIdAsync(int id)

@@ -16,6 +16,6 @@ namespace Task5_OnlineStore.DataAccess.Entities
         public Brand Brand { get; set; }
         public int CategoryId { get; set; }
         public Category Category { get; set; }
-        public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+        //public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
     }
 }

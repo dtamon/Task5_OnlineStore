@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Task5_OnlineStore.Core.Dto;
+using Task5_OnlineStore.DataAccess.PagedResult;
+using Task5_OnlineStore.DataAccess.Queries;
 
 namespace Task5_OnlineStore.Core.Services.Interfaces
 {
@@ -12,7 +14,7 @@ namespace Task5_OnlineStore.Core.Services.Interfaces
         Task CreateProductAsync(ProductDto product);
         Task UpdateProductAsync(ProductDto product);
         Task DeleteProductAsync(int id);
-        Task<IEnumerable<ProductDto>> GetAllProductsAsync();
+        Task<PagedResult<ProductDto>> GetAllProductsAsync(ProductQuery query);
         Task<ProductDto> GetProductByIdAsync(int id);
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Task5_OnlineStore.Core.Dto;
 using Task5_OnlineStore.Core.Services.Interfaces;
+using Task5_OnlineStore.DataAccess.Queries;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -20,9 +21,9 @@ namespace Task5_OnlineStore.API.Controllers
 
         // GET: api/<StoreController>
         [HttpGet]
-        public async Task<IActionResult> GetAllProducts()
+        public async Task<IActionResult> GetAllProducts([FromQuery]ProductQuery query)
         {
-            return Ok(await _productService.GetAllProductsAsync());
+            return Ok(await _productService.GetAllProductsAsync(query));
         }
 
         // GET api/<StoreController>/5
@@ -61,12 +62,6 @@ namespace Task5_OnlineStore.API.Controllers
         public async Task<IActionResult> BuyCartProducts(IEnumerable<ProductDto> cart)
         {
             return Ok("Purchase made successfully");
-        }
-
-        [HttpGet("orders")]
-        public async Task<IActionResult> GetAllOrders()
-        {
-            return Ok("");
         }
     }
 }
