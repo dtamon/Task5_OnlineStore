@@ -114,7 +114,10 @@ namespace Task5_OnlineStore.Core.Seeder
                     Cost = 171.68, BrandId = 3, CategoryId = 1},
                 new Product() { ProductName  = "NT1-A",
                     Description = "The Rode NT1-A has become legendary in the lower price segment over the last few years. It's impossible now to imagine (home) studios and other recording setups anywhere in the world without the large-diaphragm microphone in its distinctive silver finish.",
-                    Cost = 191.45, BrandId = 3, CategoryId = 1}
+                    Cost = 191.45, BrandId = 3, CategoryId = 1},
+                new Product() { ProductName = "SE215-CL",
+                    Description = "Dynamic MicroDriver for warm sound with dynamic bass. Shields over 90% of ambient noise. Suitable for in-ear monitoring as well as MP3 player. In-ear",
+                    Cost = 126.62, BrandId = 2, CategoryId = 2}
             };
         }
     }

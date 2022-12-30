@@ -1,7 +1,7 @@
 import { useShoppingCart } from "../context/ShoppingCartContext";
 import { Stack, Button } from "react-bootstrap";
 
-export function CartItem({ id, quantity, cost, brandName, productName, description }) {
+export function CartItem({ id, quantity, cost, brandName, productName }) {
     const { increaseCartQuantity, decreaseCartQuantity, removeFromCart } = useShoppingCart()
 
     return (

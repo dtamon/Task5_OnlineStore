@@ -16,7 +16,7 @@ export function StoreProduct({ id, brandId, brandName, productName, description,
                     {description}
                 </Card.Text>
                 <div className="ms-auto">
-                    <Button onClick={() => increaseCartQuantity(id, brandName, productName, description, cost)}>
+                    <Button onClick={() => increaseCartQuantity(id)}>
                         Add To Cart
                     </Button>
                 </div>

@@ -74,7 +74,8 @@ export function RegisterForm({ isOpenRegisterForm }) {
                 password: password,
                 confirmPassword: confirmPassword,
                 firstName: firstName,
-                lastName: lastName
+                lastName: lastName,
+                roleId: 2
             })
         })
             .then(res => res.text())

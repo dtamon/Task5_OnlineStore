@@ -59,10 +59,12 @@ builder.Services.AddScoped<ErrorHandlingMiddleware>();
 //Repositories
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
 //Services 
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 //FluentValidation and disable data annotations
 builder.Services.AddFluentValidationAutoValidation(config =>

@@ -13,10 +13,12 @@ namespace Task5_OnlineStore.API.Controllers
     public class StoreController : ControllerBase
     {
         private readonly IProductService _productService;
+        private readonly ICategoryService _categoryService;
 
-        public StoreController(IProductService productService)
+        public StoreController(IProductService productService, ICategoryService categoryService)
         {
             _productService = productService;
+            _categoryService = categoryService;
         }
 
         // GET: api/<StoreController>
@@ -55,6 +57,13 @@ namespace Task5_OnlineStore.API.Controllers
         {
             await _productService.DeleteProductAsync(id);
             return Ok("Deleted Successfully");
+        }
+
+        // GET All Categories
+        [HttpGet("categories")]
+        public async Task<IActionResult> GetAllCategories()
+        {
+            return Ok(await _categoryService.GetAllCategoriesAsync());
         }
 
         [HttpPost("purchase")]

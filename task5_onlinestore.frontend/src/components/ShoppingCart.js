@@ -4,10 +4,10 @@ import { useUser } from "../context/UserContext";
 import { CartItem } from "./CartItem";
 
 export function ShoppingCart({ isOpen }) {
-    const { closeCart, cartItems, cartQuantity, clearCart } = useShoppingCart()
+    const { closeCart, cartItems, cartQuantity, clearCart, fetchByIds, fetchedItems } = useShoppingCart()
     const { token, openLoginForm } = useUser()
     return (
-        <Offcanvas show={isOpen} onHide={closeCart} placement="end">
+        <Offcanvas show={isOpen} onHide={closeCart} onShow={fetchByIds} placement="end">
             <Offcanvas.Header closeButton>
                 <Offcanvas.Title>Cart</Offcanvas.Title>
             </Offcanvas.Header>
@@ -18,12 +18,20 @@ export function ShoppingCart({ isOpen }) {
                             There are no products in cart
                         </div>
                     )}
-                    {cartItems.map(item =>
+
+                    {/* {cartItems.map(item =>
                         <CartItem key={item.id} {...item} />
-                    )}
+                    )} */}
+                    {fetchedItems.map(item => {
+                        const props = { ...item, ...cartItems.find(i => i.id === item.id) }
+                        return <CartItem key={item.id} {...props} />
+                    })
+                    }
+
                     <div className="ms-auto fw-bold fs-5">
                         Total {(cartItems.reduce((total, cartItem) => {
-                            return total + (cartItem.cost || 0) * cartItem.quantity
+                            const item = fetchedItems.find(i => i.id === cartItem.id)
+                            return total + (item?.cost || 0) * cartItem.quantity
                         }, 0)).toFixed(2)}$
                     </div>
                     {cartQuantity > 0 && (
