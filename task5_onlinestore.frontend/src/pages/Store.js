@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useSetState } from "react"
 import { Col, Row, Stack, Pagination, InputGroup, Form, Button } from "react-bootstrap";
 import { StoreProduct } from "../components/StoreProduct";
 import StoreService from "../services/StoreService";
@@ -25,21 +25,6 @@ export function Store() {
             .then(data => {
                 setProducts(data.items)
                 setTotalPages(data.totalPages)
-
-                let pages = []
-                for (let number = 1; number <= data.totalPages; number++) {
-                    pages.push(
-                        <Pagination.Item
-                            key={number}
-                            active={number === pageNumber}
-                            onClick={(e) => {
-                                setPageNumber(e.target.text);
-                                fetchData();
-                            }}>
-                            {number}
-                        </Pagination.Item>
-                    )
-                }
                 setPages(pages)
 
                 setPageInfo({
@@ -47,10 +32,6 @@ export function Store() {
                     itemsTo: data.itemsTo,
                     totalItemsCount: data.totalItemsCount
                 })
-                // console.log("Items from: " + data.itemsFrom)
-                // console.log("Items to: " + data.itemsTo)
-                // console.log("Total items count: " + data.totalItemsCount)
-                // console.log("Total pages: " + data.totalPages)
             })
         await storeService.getAllCategories()
             .then(data => {
@@ -60,7 +41,7 @@ export function Store() {
 
     useEffect(() => {
         fetchData();
-    }, [])
+    }, [pageNumber])
 
     return (
         <>
@@ -85,11 +66,31 @@ export function Store() {
                             <StoreProduct {...product} />
                         </Col>
                     ))}
-                    <Pagination>
-                        {pages}
-                    </Pagination>
+                    {renderPagination()}
                 </Stack>
             </Row>
         </>
     )
+
+    function renderPagination() {
+        let paginationItems = []
+        for (let number = 1; number <= totalPages; number++) {
+            paginationItems.push(
+                <Pagination.Item
+                    key={number}
+                    active={number === pageNumber}
+                    onClick={() => {
+                        setPageNumber(number);
+                        fetchData();
+                    }}>
+                    {number}
+                </Pagination.Item>
+            );
+        }
+        return (
+            <Pagination>
+                {paginationItems}
+            </Pagination>
+        )
+    }
 }
