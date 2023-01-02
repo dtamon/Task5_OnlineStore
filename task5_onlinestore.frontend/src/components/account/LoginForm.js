@@ -1,17 +1,20 @@
 import { useUser } from "../../context/UserContext"
 import { Form, FormGroup, Offcanvas, OffcanvasBody, OffcanvasHeader, Button, Stack } from "react-bootstrap"
 import React, { useState } from "react"
+import jwt_decode from "jwt-decode";
+import AccountService from "../../services/AccountService";
 
 export function LoginForm({ isOpenLoginForm }) {
+    const accountService = new AccountService();
     const {
+        setUser,
         closeLoginForm,
         openRegisterForm,
         setEmail,
         setPassword,
-        setToken,
+        user,
         email,
         password,
-        token,
     } = useUser()
     const [error, setError] = useState()
 
@@ -22,9 +25,9 @@ export function LoginForm({ isOpenLoginForm }) {
             </OffcanvasHeader>
             <OffcanvasBody>
                 <Stack gap={3}>
-                    {token !== undefined
+                    {user !== undefined
                         ? (<div className="mt-auto fs-5 text-muted">
-                            You are logged in
+                            You are logged in as <p>{user.name}</p>
                         </div>)
                         : <React.Fragment>
                             <FormGroup>
@@ -40,14 +43,14 @@ export function LoginForm({ isOpenLoginForm }) {
                     }
 
                     <div className="me-auto">
-                        {token === undefined
+                        {user === undefined
                             ? <React.Fragment>
                                 <Stack gap={2}>
                                     <Button variant="primary" type="submit" onClick={() => { login() }}>Sign In</Button>
                                     <Button variant="outline-primary" type="submit" onClick={() => { openRegisterForm(); closeLoginForm() }}>Register</Button>
                                 </Stack>
                             </React.Fragment>
-                            : <Button variant="primary" type="submit" onClick={() => { setToken(); setEmail(); setPassword() }}>Log Out</Button>
+                            : <Button variant="primary" type="submit" onClick={() => { setUser(); setEmail(); setPassword() }}>Log Out</Button>
                         }
                     </div>
 
@@ -56,15 +59,8 @@ export function LoginForm({ isOpenLoginForm }) {
         </Offcanvas>
     )
 
-    function login() {
-        fetch('/api/account/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                email: email,
-                password: password,
-            })
-        })
+    async function login() {
+        await accountService.loginUser(email, password)
             .then(res => {
                 if (!res.ok) res.text().then((value) => setError(value))
                 else {
@@ -75,7 +71,15 @@ export function LoginForm({ isOpenLoginForm }) {
             })
             .then((result) => {
                 // console.log(result)
-                setToken(result)
+                // setToken(result)
+                const decodedToken = jwt_decode(result)
+                setUser({
+                    token: result,
+                    id: decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'],
+                    role: decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'],
+                    email: decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'],
+                    name: decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name']
+                })
             }, (error) => {
                 alert(error)
             })

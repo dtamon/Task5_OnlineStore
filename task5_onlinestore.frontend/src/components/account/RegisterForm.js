@@ -1,8 +1,10 @@
 import { useUser } from "../../context/UserContext"
 import { Form, FormGroup, Offcanvas, OffcanvasBody, OffcanvasHeader, Button, Stack } from "react-bootstrap"
 import React, { useState } from "react"
+import AccountService from "../../services/AccountService";
 
 export function RegisterForm({ isOpenRegisterForm }) {
+    const accountService = new AccountService();
     const {
         closeRegisterForm,
         openLoginForm,
@@ -65,19 +67,8 @@ export function RegisterForm({ isOpenRegisterForm }) {
         </Offcanvas>
     )
 
-    function register() {
-        fetch('/api/account/register', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                email: email,
-                password: password,
-                confirmPassword: confirmPassword,
-                firstName: firstName,
-                lastName: lastName,
-                roleId: 2
-            })
-        })
+    async function register() {
+        await accountService.registerUser(email, password, confirmPassword, firstName, lastName)
             .then(res => res.text())
             .then(body => {
                 try {

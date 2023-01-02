@@ -23,6 +23,10 @@ namespace Task5_OnlineStore.Core
 
             CreateMap<CategoryDto, Category>();
             CreateMap<Category, CategoryDto>();
+
+            CreateMap<OrderDto, Order>();
+            CreateMap<Order, OrderDto>()
+                .ForMember(d => d.UserName, o => o.MapFrom(s => $"{s.User.FirstName} {s.User.LastName}"));
         }
     }
 }

@@ -11,9 +11,9 @@ export function useUser() {
 export function UserProvider({ children }) {
     const [isOpenLoginForm, setIsOpenLoginForm] = useState(false)
     const [isOpenRegisterForm, setIsOpenRegisterForm] = useState(false)
+    const [user, setUser] = useState()
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
-    const [token, setToken] = useState()
     const [confirmPassword, setConfirmPassword] = useState()
     const [firstName, setFirstName] = useState()
     const [lastName, setLastName] = useState()
@@ -34,9 +34,9 @@ export function UserProvider({ children }) {
     return (
         <UserContext.Provider
             value={{
+                setUser,
                 setEmail,
                 setPassword,
-                setToken,
                 setConfirmPassword,
                 setFirstName,
                 setLastName,
@@ -44,9 +44,9 @@ export function UserProvider({ children }) {
                 closeLoginForm,
                 openRegisterForm,
                 closeRegisterForm,
+                user,
                 email,
                 password,
-                token,
                 confirmPassword,
                 firstName,
                 lastName

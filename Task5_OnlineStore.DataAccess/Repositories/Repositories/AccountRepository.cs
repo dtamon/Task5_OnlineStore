@@ -21,7 +21,7 @@ namespace Task5_OnlineStore.DataAccess.Repositories.Repositories
 
         public async Task<User?> GetUserByEmail(string email)
         {
-            return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            return await _context.Users.Include(x => x.Role).FirstOrDefaultAsync(u => u.Email == email);
         }
 
         public async Task RegisterUser(User user)

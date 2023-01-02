@@ -1,11 +1,13 @@
 import { Offcanvas, Stack, Button } from "react-bootstrap";
 import { useShoppingCart } from "../context/ShoppingCartContext";
 import { useUser } from "../context/UserContext";
+import OrderService from "../services/OrderService";
 import { CartItem } from "./CartItem";
 
 export function ShoppingCart({ isOpen }) {
+    const orderService = new OrderService()
     const { closeCart, cartItems, cartQuantity, clearCart, fetchByIds, fetchedItems } = useShoppingCart()
-    const { token, openLoginForm } = useUser()
+    const { user, openLoginForm } = useUser()
     return (
         <Offcanvas show={isOpen} onHide={closeCart} onShow={fetchByIds} placement="end">
             <Offcanvas.Header closeButton>
@@ -19,9 +21,6 @@ export function ShoppingCart({ isOpen }) {
                         </div>
                     )}
 
-                    {/* {cartItems.map(item =>
-                        <CartItem key={item.id} {...item} />
-                    )} */}
                     {fetchedItems.map(item => {
                         const props = { ...item, ...cartItems.find(i => i.id === item.id) }
                         return <CartItem key={item.id} {...props} />
@@ -35,7 +34,7 @@ export function ShoppingCart({ isOpen }) {
                         }, 0)).toFixed(2)}$
                     </div>
                     {cartQuantity > 0 && (
-                        <Button className="ms-auto" onClick={() => makePurchase()}>Buy</Button>
+                        <Button className="ms-auto" onClick={() => checkout()}>Buy</Button>
                     )}
 
                 </Stack>
@@ -43,16 +42,10 @@ export function ShoppingCart({ isOpen }) {
         </Offcanvas>
     )
 
-    function makePurchase() {
-        if (token !== undefined) {
-            fetch('/api/store/purchase', {
-                method: 'POST',
-                headers: {
-                    'Authorization': 'Bearer ' + token,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(cartItems)
-            })
+    async function checkout() {
+        console.log(user);
+        if (user !== undefined) {
+            await orderService.checkoutOrder(user.token, cartItems)
                 .then(res => {
                     if (!res.ok) throw new Error("Unauthorized")
                     else {

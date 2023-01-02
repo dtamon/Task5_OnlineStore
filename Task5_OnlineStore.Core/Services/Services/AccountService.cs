@@ -56,6 +56,7 @@ namespace Task5_OnlineStore.Core.Services.Services
             var claims = new List<Claim>()
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Role, user.Role.RoleName),
                 new Claim(ClaimTypes.Email, dto.Email),
                 new Claim(ClaimTypes.Name, $"{user.FirstName} {user.LastName}"),
             };

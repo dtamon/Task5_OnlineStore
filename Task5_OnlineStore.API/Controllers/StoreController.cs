@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using Task5_OnlineStore.Core.Dto;
 using Task5_OnlineStore.Core.Services.Interfaces;
+using Task5_OnlineStore.Core.Services.Services;
 using Task5_OnlineStore.DataAccess.Queries;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -14,11 +16,13 @@ namespace Task5_OnlineStore.API.Controllers
     {
         private readonly IProductService _productService;
         private readonly ICategoryService _categoryService;
+        private readonly IOrderService _orderService;
 
-        public StoreController(IProductService productService, ICategoryService categoryService)
+        public StoreController(IProductService productService, ICategoryService categoryService, IOrderService orderService)
         {
             _productService = productService;
             _categoryService = categoryService;
+            _orderService = orderService;
         }
 
         // GET: api/<StoreController>
@@ -68,8 +72,10 @@ namespace Task5_OnlineStore.API.Controllers
 
         [HttpPost("purchase")]
         [Authorize]
-        public async Task<IActionResult> BuyCartProducts(IEnumerable<ProductDto> cart)
+        public async Task<IActionResult> CheckoutOrder(IEnumerable<OrderProductDto> cartItems)
         {
+            var userId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            await _orderService.CreateOrderAsync(userId, cartItems);
             return Ok("Purchase made successfully");
         }
     }
