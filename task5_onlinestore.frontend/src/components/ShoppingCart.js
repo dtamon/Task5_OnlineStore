@@ -43,7 +43,7 @@ export function ShoppingCart({ isOpen }) {
     )
 
     async function checkout() {
-        console.log(user);
+        // console.log(user);
         if (user !== undefined) {
             await orderService.checkoutOrder(user.token, cartItems)
                 .then(res => {

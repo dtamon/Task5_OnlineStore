@@ -4,6 +4,7 @@ import { useShoppingCart } from "../context/ShoppingCartContext"
 import { useUser } from "../context/UserContext"
 
 export function Navbar() {
+    const { user } = useUser()
     const { openCart, cartQuantity } = useShoppingCart()
     const { openLoginForm } = useUser()
     return (
@@ -12,6 +13,11 @@ export function Navbar() {
                 <Nav className="me-auto">
                     <Nav.Link to="/" as={NavLink} >About</Nav.Link>
                     <Nav.Link to="/store" as={NavLink} >Store</Nav.Link>
+                    {user !== undefined ?
+                        user.role === "Admin" ?
+                            <Nav.Link to="/adminPanel" as={NavLink} >Admin Panel</Nav.Link>
+                            : <Nav.Link to="/userOrders" as={NavLink} >Your Orders</Nav.Link>
+                        : <></>}
                 </Nav>
                 <Button
                     onClick={openCart}

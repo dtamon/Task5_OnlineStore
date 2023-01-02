@@ -69,14 +69,5 @@ namespace Task5_OnlineStore.API.Controllers
         {
             return Ok(await _categoryService.GetAllCategoriesAsync());
         }
-
-        [HttpPost("purchase")]
-        [Authorize]
-        public async Task<IActionResult> CheckoutOrder(IEnumerable<OrderProductDto> cartItems)
-        {
-            var userId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-            await _orderService.CreateOrderAsync(userId, cartItems);
-            return Ok("Purchase made successfully");
-        }
     }
 }

@@ -25,10 +25,16 @@ export function LoginForm({ isOpenLoginForm }) {
             </OffcanvasHeader>
             <OffcanvasBody>
                 <Stack gap={3}>
-                    {user !== undefined
-                        ? (<div className="mt-auto fs-5 text-muted">
-                            You are logged in as <p>{user.name}</p>
-                        </div>)
+                    {user !== undefined ?
+                        user.role === "Admin" ?
+                            (<div className="mt-auto fs-5 text-muted">
+                                You are logged in as: {user.role}
+                            </div>)
+                            : (<div className="mt-auto fs-5 text-muted">
+                                You are logged in as: {user.role}
+                                <p>{user.name}</p>
+                                <p>{user.email}</p>
+                            </div>)
                         : <React.Fragment>
                             <FormGroup>
                                 <Form.Label>Email</Form.Label>

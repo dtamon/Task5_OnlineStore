@@ -61,8 +61,8 @@ namespace Task5_OnlineStore.Core.Seeder
                     Email = "user1@gmail.com",
                     Password = "password1",
                     ConfirmPassword = "password1",
-                    FirstName = "UserFName",
-                    LastName = "UserLName",
+                    FirstName = "John",
+                    LastName = "Smith",
                     RoleId = 2
                 }); 
             }
