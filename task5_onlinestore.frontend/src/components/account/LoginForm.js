@@ -1,5 +1,6 @@
 import { useUser } from "../../context/UserContext"
-import { Form, FormGroup, Offcanvas, OffcanvasBody, OffcanvasHeader, Button, Stack } from "react-bootstrap"
+import { Form, FormGroup, Offcanvas, OffcanvasBody, OffcanvasHeader, Button, Stack, Nav } from "react-bootstrap"
+import { NavLink } from "react-router-dom"
 import React, { useState } from "react"
 import jwt_decode from "jwt-decode";
 import AccountService from "../../services/AccountService";
@@ -56,7 +57,9 @@ export function LoginForm({ isOpenLoginForm }) {
                                     <Button variant="outline-primary" type="submit" onClick={() => { openRegisterForm(); closeLoginForm() }}>Register</Button>
                                 </Stack>
                             </React.Fragment>
-                            : <Button variant="primary" type="submit" onClick={() => { setUser(); setEmail(); setPassword() }}>Log Out</Button>
+                            : <Nav.Link to="/store" as={NavLink} >
+                                <Button variant="primary" type="submit" onClick={() => { setUser(); setEmail(); setPassword() }}>Log Out</Button>
+                            </Nav.Link>
                         }
                     </div>
 
@@ -76,8 +79,6 @@ export function LoginForm({ isOpenLoginForm }) {
                 }
             })
             .then((result) => {
-                // console.log(result)
-                // setToken(result)
                 const decodedToken = jwt_decode(result)
                 setUser({
                     token: result,

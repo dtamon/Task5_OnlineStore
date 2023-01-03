@@ -12,6 +12,5 @@ namespace Task5_OnlineStore.Core.Dto
         public string ProductFullName { get; set; }
         public int Quantity { get; set; }
         public double Cost { get; set; }
-        public double TotalCost { get; set; } 
     }
 }

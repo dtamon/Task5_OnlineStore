@@ -14,6 +14,6 @@ namespace Task5_OnlineStore.DataAccess.Entities
         public double TotalCost { get; set; }
         public DateTime DateOfOrder { get; set; }
         public string Status { get; set; }
-        public virtual ICollection<Product> Products { get; set; } = new List<Product>();
+        public virtual ICollection<OrderProduct> OrderProducts { get; set; } = new List<OrderProduct>();
     }
 }

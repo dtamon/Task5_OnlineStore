@@ -16,13 +16,13 @@ namespace Task5_OnlineStore.API.Controllers
     {
         private readonly IProductService _productService;
         private readonly ICategoryService _categoryService;
-        private readonly IOrderService _orderService;
+        private readonly IBrandService _brandService;
 
-        public StoreController(IProductService productService, ICategoryService categoryService, IOrderService orderService)
+        public StoreController(IProductService productService, ICategoryService categoryService, IBrandService brandService)
         {
             _productService = productService;
             _categoryService = categoryService;
-            _orderService = orderService;
+            _brandService = brandService;
         }
 
         // GET: api/<StoreController>
@@ -69,5 +69,13 @@ namespace Task5_OnlineStore.API.Controllers
         {
             return Ok(await _categoryService.GetAllCategoriesAsync());
         }
+
+        // GET All Brands
+        [HttpGet("brands")]
+        public async Task<IActionResult> GetAllBrands()
+        {
+            return Ok(await _brandService.GetAllBrandsAsync());
+        }
+
     }
 }

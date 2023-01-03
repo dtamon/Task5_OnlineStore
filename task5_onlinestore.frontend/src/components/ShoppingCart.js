@@ -34,7 +34,7 @@ export function ShoppingCart({ isOpen }) {
                         }, 0)).toFixed(2)}$
                     </div>
                     {cartQuantity > 0 && (
-                        <Button className="ms-auto" onClick={() => checkout()}>Buy</Button>
+                        <Button className="ms-auto" onClick={() => checkout()}>Checkout</Button>
                     )}
 
                 </Stack>

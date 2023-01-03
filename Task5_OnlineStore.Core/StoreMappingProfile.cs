@@ -24,9 +24,18 @@ namespace Task5_OnlineStore.Core
             CreateMap<CategoryDto, Category>();
             CreateMap<Category, CategoryDto>();
 
+            CreateMap<BrandDto, Brand>();
+            CreateMap<Brand, BrandDto>();
+
             CreateMap<OrderDto, Order>();
             CreateMap<Order, OrderDto>()
                 .ForMember(d => d.UserName, o => o.MapFrom(s => $"{s.User.FirstName} {s.User.LastName}"));
+
+            CreateMap<OrderProductDto, OrderProduct>();
+            CreateMap<OrderProduct, OrderProductDto>()
+                .ForMember(d => d.ProductFullName, o => o.MapFrom(s => $"{s.Product.Brand.BrandName} {s.Product.ProductName}"))
+                .ForMember(d => d.Cost, o => o.MapFrom(s => s.Product.Cost))
+                .ForMember(d => d.Id, o => o.MapFrom(s => s.ProductId));
         }
     }
 }

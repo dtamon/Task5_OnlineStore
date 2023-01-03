@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Task5_OnlineStore.DataAccess.Context;
 using Task5_OnlineStore.DataAccess.Entities;
+using Task5_OnlineStore.DataAccess.PagedResult;
+using Task5_OnlineStore.DataAccess.Queries;
 using Task5_OnlineStore.DataAccess.Repositories.Interfaces;
 
 namespace Task5_OnlineStore.DataAccess.Repositories.Repositories
@@ -25,9 +27,25 @@ namespace Task5_OnlineStore.DataAccess.Repositories.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<ICollection<Order>> GetAllOrdersAsync()
+        public async Task<PagedResult<Order>> GetAllOrdersAsync(OrderQuery query)
         {
-            return await _context.Orders.Include(x => x.User).Include(x => x.Products).Where(x => x.Status.Equals("Ordered")).ToListAsync();
+            var baseQuery = _context.Orders.Include(x => x.User).Include(x => x.OrderProducts).ThenInclude(x => x.Product).ThenInclude(x => x.Brand).Where(x => x.Status.Equals("Ordered"));
+
+            var orders = await baseQuery
+                .Skip(query.PageSize * (query.PageNumber - 1))
+                .Take(query.PageSize)
+                .ToListAsync();
+
+            var totalItemsCount = baseQuery.Count();
+
+            var result = new PagedResult<Order>(orders, totalItemsCount, query.PageSize, query.PageNumber);
+
+            return result;
+        }
+
+        public async Task<ICollection<Order>> GetUserOrdersAsync(int userId)
+        {
+            return await _context.Orders.Include(x => x.User).Include(x => x.OrderProducts).ThenInclude(x => x.Product).ThenInclude(x => x.Brand).Where(x => x.UserId == userId).OrderByDescending(x => x.DateOfOrder).ToListAsync();
         }
 
         public async Task UpdateOrderAsync(Order order)

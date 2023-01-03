@@ -1,6 +1,6 @@
 export default class StoreService {
-    async getAllProducts(searchCategory, searchPhrase, pageNumber, pageSize) {
-        const response = await fetch(`/api/store?searchCategory=${searchCategory}&searchPhrase=${searchPhrase}&pageNumber=${pageNumber}&pageSize=${pageSize}`, {
+    async getAllProducts(searchCategory, searchBrand, searchPhrase, priceMin, priceMax, sortBy, sortDirection, pageNumber, pageSize) {
+        const response = await fetch(`/api/store?searchCategory=${searchCategory}&searchBrand=${searchBrand}&searchPhrase=${searchPhrase}&priceMin=${priceMin}&priceMax=${priceMax}&sortBy=${sortBy}&sortDirection=${sortDirection}&pageNumber=${pageNumber}&pageSize=${pageSize}`, {
             method: 'GET'
         })
         return await response.json();
@@ -15,6 +15,13 @@ export default class StoreService {
 
     async getAllCategories() {
         const response = await fetch(`/api/store/categories`, {
+            method: 'GET'
+        })
+        return await response.json();
+    }
+
+    async getAllBrands() {
+        const response = await fetch(`/api/store/brands`, {
             method: 'GET'
         })
         return await response.json();

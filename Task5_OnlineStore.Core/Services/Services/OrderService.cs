@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using Task5_OnlineStore.Core.Dto;
 using Task5_OnlineStore.Core.Services.Interfaces;
 using Task5_OnlineStore.DataAccess.Entities;
+using Task5_OnlineStore.DataAccess.PagedResult;
+using Task5_OnlineStore.DataAccess.Queries;
 using Task5_OnlineStore.DataAccess.Repositories.Interfaces;
 
 namespace Task5_OnlineStore.Core.Services.Services
@@ -65,9 +67,41 @@ namespace Task5_OnlineStore.Core.Services.Services
             }
         }
 
-        public async Task<ICollection<OrderDto>> GetAllNewOrdersAsync()
+        public async Task<PagedResult<OrderDto>> GetAllNewOrdersAsync(OrderQuery query)
         {
-            return _mapper.Map<ICollection<OrderDto>>(await _orderRepository.GetAllOrdersAsync());
+            var orders = await _orderRepository.GetAllOrdersAsync(query);
+            var mappedOrders = new List<OrderDto>();
+
+            foreach (var order in orders.Items)
+            {
+                var mappedOrder = _mapper.Map<OrderDto>(order);
+                mappedOrder.OrderProducts = _mapper.Map<ICollection<OrderProductDto>>(order.OrderProducts);
+                mappedOrders.Add(mappedOrder);
+            }
+
+            var pagedResultOrders = new PagedResult<OrderDto>(
+                    mappedOrders,
+                    orders.TotalPages,
+                    orders.ItemsFrom,
+                    orders.ItemsTo,
+                    orders.TotalItemsCount
+                );
+            return pagedResultOrders;
+        }
+
+        public async Task<ICollection<OrderDto>> GetUserOrdersAsync(int userId)
+        {
+            var mappedOrders = new List<OrderDto>();
+
+            var orders = await _orderRepository.GetUserOrdersAsync(userId);
+
+            foreach (var order in orders)
+            {
+                var mappedOrder = _mapper.Map<OrderDto>(order);
+                mappedOrder.OrderProducts = _mapper.Map<ICollection<OrderProductDto>>(order.OrderProducts);
+                mappedOrders.Add(mappedOrder);
+            }
+            return mappedOrders;
         }
 
         public async Task UpdateOrderStatusAsync(OrderDto orderDto)

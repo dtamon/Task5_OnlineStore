@@ -43,7 +43,9 @@ namespace Task5_OnlineStore.DataAccess.Repositories.Repositories
                                 .Include(x => x.Category)
                                 .Where(x => query.SearchPhrase == null || (x.ProductName.ToLower().Contains(query.SearchPhrase.ToLower())
                                                                         || x.Description.ToLower().Contains(query.SearchPhrase.ToLower())))
-                                .Where(x => query.SearchCategory == 0 || x.CategoryId == query.SearchCategory);
+                                .Where(x => query.SearchCategory == 0 || x.CategoryId == query.SearchCategory)
+                                .Where(x => query.SearchBrand == 0 || x.BrandId == query.SearchBrand)
+                                .Where(x => query.PriceMin < x.Cost && x.Cost < query.PriceMax);
 
             //Ordering if SortBy is not empty 
             if (!string.IsNullOrEmpty(query.SortBy))

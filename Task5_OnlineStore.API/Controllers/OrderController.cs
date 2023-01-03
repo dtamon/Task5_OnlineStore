@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using Task5_OnlineStore.Core.Dto;
 using Task5_OnlineStore.Core.Services.Interfaces;
+using Task5_OnlineStore.DataAccess.Queries;
 
 namespace Task5_OnlineStore.API.Controllers
 {
@@ -23,16 +24,23 @@ namespace Task5_OnlineStore.API.Controllers
         public async Task<IActionResult> CheckoutOrder(IEnumerable<OrderProductDto> cartItems)
         {
             var userId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-            var order = cartItems;
             await _orderService.CreateOrderAsync(userId, cartItems);
             return Ok("Purchase made successfully");
         }
 
-        [HttpGet]
+        [HttpGet("ordered")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> GetNewOrders()
+        public async Task<IActionResult> GetNewOrders([FromQuery]OrderQuery query)
         {
-            return Ok(await _orderService.GetAllNewOrdersAsync());
+            return Ok(await _orderService.GetAllNewOrdersAsync(query));
+        }
+
+        [HttpGet("userOrders")]
+        [Authorize]
+        public async Task<IActionResult> GetUserOrders()
+        {
+            var userId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            return Ok(await _orderService.GetUserOrdersAsync(userId));
         }
 
         [HttpPut]

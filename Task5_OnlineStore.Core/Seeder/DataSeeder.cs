@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -58,13 +59,33 @@ namespace Task5_OnlineStore.Core.Seeder
                 });
                 _accountService.RegisterUser(new RegisterUserDto()
                 {
-                    Email = "user1@gmail.com",
+                    Email = "johnsmith@gmail.com",
                     Password = "password1",
                     ConfirmPassword = "password1",
                     FirstName = "John",
                     LastName = "Smith",
                     RoleId = 2
-                }); 
+                });
+
+                _accountService.RegisterUser(new RegisterUserDto()
+                {
+                    Email = "mkowalski@gmail.com",
+                    Password = "password2",
+                    ConfirmPassword = "password2",
+                    FirstName = "Mark",
+                    LastName = "Kowalski",
+                    RoleId = 2
+                });
+            }
+            if (!_context.Orders.Any())
+            {
+                _context.Orders.AddRange(GetOrders());
+                _context.SaveChanges();
+            }
+            if (!_context.OrderProducts.Any())
+            {
+                _context.OrderProducts.AddRange(GetOrderProducts());
+                _context.SaveChanges();
             }
         }
 
@@ -83,7 +104,8 @@ namespace Task5_OnlineStore.Core.Seeder
             {
                 new Brand() { BrandName = "Sennheiser"},
                 new Brand() { BrandName = "Shure"},
-                new Brand() { BrandName = "Rode"}
+                new Brand() { BrandName = "Rode"},
+                new Brand() { BrandName = "Neumann"}
             };
         }
 
@@ -92,7 +114,8 @@ namespace Task5_OnlineStore.Core.Seeder
             return new List<Category>()
             {
                 new Category() { CategoryName = "Microphones"},
-                new Category() { CategoryName = "Headphones"}
+                new Category() { CategoryName = "Headphones"},
+                new Category() { CategoryName = "Speakers"}
             };
         }
 
@@ -117,7 +140,63 @@ namespace Task5_OnlineStore.Core.Seeder
                     Cost = 191.45, BrandId = 3, CategoryId = 1},
                 new Product() { ProductName = "SE215-CL",
                     Description = "Dynamic MicroDriver for warm sound with dynamic bass. Shields over 90% of ambient noise. Suitable for in-ear monitoring as well as MP3 player. In-ear",
-                    Cost = 126.62, BrandId = 2, CategoryId = 2}
+                    Cost = 126.62, BrandId = 2, CategoryId = 2},
+                new Product() { ProductName = "KH 80 DSP Sub Bundle",
+                    Description = "Studio Monitor with DSP. Control panel for standby and acoustical control. Electronic peak /thermo limiter protection circuit separately for woofer and tweeter",
+                    Cost = 2111.00, BrandId = 4, CategoryId = 3},
+                new Product() { ProductName = "KH 120 A",
+                    Description = "Frequency range: 52 Hz - 21 kHz (+/- 3 dB). Power: 50 W Woofer and 50 W Tweeter. Separate woofer and tweeter electronic peak limiters and thermal-protection circuitry",
+                    Cost = 598.00, BrandId = 4, CategoryId = 3},
+                new Product() { ProductName = "Stem Speaker",
+                    Description = "tem Speaker's innovative design gives you the option to mount the device on the ceiling, wall, or table for ultimate flexibility. With its powerful driver and built-in technology, Stem Speaker delivers an exceptional sound experience in any meeting room.",
+                    Cost = 699.00, BrandId = 2, CategoryId = 3},
+                new Product() { ProductName = "SRH840A",
+                    Description = "Developed to provide accurate and well-balanced audio, the new SRH840A Professional Monitoring Headphones are optimized for critical listening and studio monitoring. A wide, padded headband and collapsible design combine with Shure durability to provide the ultimate listening experience.",
+                    Cost = 149.00, BrandId = 2, CategoryId = 2},
+                new Product() { ProductName = "NTH-100",
+                    Description = "The NTH-100s are the culmination of decades of passion, immersion and innovation in audio technology. Every component has been painstakingly analysed, crafted and refined to deliver an outstanding audio experience.",
+                    Cost = 180.35, BrandId = 3, CategoryId = 2},
+
+            };
+        }
+
+        private IEnumerable<Order> GetOrders()
+        {
+            return new List<Order>
+            {
+                new Order() { UserId = 2, TotalCost = 834.94, DateOfOrder = DateTime.Now, Status="Ordered"},
+                new Order() { UserId = 2, TotalCost = 5235.46, DateOfOrder = DateTime.Now, Status="Ordered"},
+                new Order() { UserId = 2, TotalCost = 1398.00, DateOfOrder = DateTime.Now, Status="Ordered"},
+                new Order() { UserId = 2, TotalCost = 5414.42, DateOfOrder = DateTime.Now, Status="Ordered"},
+                new Order() { UserId = 2, TotalCost = 1105.7, DateOfOrder = DateTime.Now, Status="Ordered"},
+                new Order() { UserId = 2, TotalCost = 2944.82, DateOfOrder = DateTime.Now, Status="Ordered"},
+
+            };
+        }
+
+        private IEnumerable<OrderProduct> GetOrderProducts()
+        {
+            return new List<OrderProduct>
+            {
+                new OrderProduct() {OrderId = 1, ProductId = 1, Quantity = 3},
+                new OrderProduct() {OrderId = 1, ProductId = 5, Quantity = 2},
+                new OrderProduct() {OrderId = 2, ProductId = 6, Quantity = 1},
+                new OrderProduct() {OrderId = 2, ProductId = 5, Quantity = 1},
+                new OrderProduct() {OrderId = 2, ProductId = 11, Quantity = 1},
+                new OrderProduct() {OrderId = 2, ProductId = 7, Quantity = 2},
+                new OrderProduct() {OrderId = 2, ProductId = 4, Quantity = 3},
+                new OrderProduct() {OrderId = 3, ProductId = 9, Quantity = 2},
+                new OrderProduct() {OrderId = 4, ProductId = 2, Quantity = 3},
+                new OrderProduct() {OrderId = 4, ProductId = 8, Quantity = 5},
+                new OrderProduct() {OrderId = 5, ProductId = 3, Quantity = 1},
+                new OrderProduct() {OrderId = 5, ProductId = 6, Quantity = 2},
+                new OrderProduct() {OrderId = 5, ProductId = 1, Quantity = 3},
+                new OrderProduct() {OrderId = 6, ProductId = 5, Quantity = 4},
+                new OrderProduct() {OrderId = 6, ProductId = 6, Quantity = 2},
+                new OrderProduct() {OrderId = 6, ProductId = 2, Quantity = 3},
+                new OrderProduct() {OrderId = 6, ProductId = 1, Quantity = 2},
+                new OrderProduct() {OrderId = 6, ProductId = 8, Quantity = 1},
+
             };
         }
     }
