@@ -9,6 +9,13 @@ App allowing adding products to shopping cart and buying them for authorized use
 - Pressing button `Buy` will redirect unauthorized user to Log In from
 - If a user doesnt have an account he can register himself by pressing button Register in Log In form and filling in the fields with the correct data
 - If the user is authorized pressing button `Buy` will clear the Cart and display a message of successful purchase
+#### Additional features after improvements 
+-Added product categories. Filtering products by Category, Brand, Price range, Search phrase and sorting products by Price asc/desc and Brand Name alphabetical/reversed, Pagination
+-Role based authorization (Admin and User). Seeded sample admin and 2 users via [DataSeeder](https://github.com/dtamon/Task5_OnlineStore/blob/master/Task5_OnlineStore.Core/Seeder/DataSeeder.cs)
+-Added Admin panel (available only for authorized user with `Admin` role), Admin can check Placed Orders, see what Products are in the order and decide to Accept or Reject order (changes its status)
+-Authorized user can see his Orders history with order status
+
+
 ## Configuration
 #### 1. Change your connection string in [appsettings.json](https://github.com/dtamon/Task5_OnlineStore/blob/master/Task5_OnlineStore.API/appsettings.json),
 ````json 
