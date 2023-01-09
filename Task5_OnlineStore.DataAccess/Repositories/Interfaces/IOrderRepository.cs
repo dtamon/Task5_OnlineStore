@@ -12,7 +12,7 @@ namespace Task5_OnlineStore.DataAccess.Repositories.Interfaces
     public interface IOrderRepository
     {
         Task<PagedResult<Order>> GetAllOrdersAsync(OrderQuery query);
-        Task<ICollection<Order>> GetUserOrdersAsync(int userId);
+        Task<PagedResult<Order>> GetUserOrdersAsync(int userId, OrderQuery query);
         Task CreateOrderAsync(Order order);
         Task UpdateOrderAsync(Order order);
     }

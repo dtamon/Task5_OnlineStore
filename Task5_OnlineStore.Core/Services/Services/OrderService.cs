@@ -89,19 +89,26 @@ namespace Task5_OnlineStore.Core.Services.Services
             return pagedResultOrders;
         }
 
-        public async Task<ICollection<OrderDto>> GetUserOrdersAsync(int userId)
+        public async Task<PagedResult<OrderDto>> GetUserOrdersAsync(int userId, OrderQuery query)
         {
+            var orders = await _orderRepository.GetUserOrdersAsync(userId, query);
             var mappedOrders = new List<OrderDto>();
 
-            var orders = await _orderRepository.GetUserOrdersAsync(userId);
-
-            foreach (var order in orders)
+            foreach (var order in orders.Items)
             {
                 var mappedOrder = _mapper.Map<OrderDto>(order);
                 mappedOrder.OrderProducts = _mapper.Map<ICollection<OrderProductDto>>(order.OrderProducts);
                 mappedOrders.Add(mappedOrder);
             }
-            return mappedOrders;
+
+            var pagedResultOrders = new PagedResult<OrderDto>(
+                    mappedOrders,
+                    orders.TotalPages,
+                    orders.ItemsFrom,
+                    orders.ItemsTo,
+                    orders.TotalItemsCount
+                );
+            return pagedResultOrders;
         }
 
         public async Task UpdateOrderStatusAsync(OrderDto orderDto)

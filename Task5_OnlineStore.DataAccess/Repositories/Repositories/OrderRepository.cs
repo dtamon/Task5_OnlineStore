@@ -43,9 +43,20 @@ namespace Task5_OnlineStore.DataAccess.Repositories.Repositories
             return result;
         }
 
-        public async Task<ICollection<Order>> GetUserOrdersAsync(int userId)
+        public async Task<PagedResult<Order>> GetUserOrdersAsync(int userId, OrderQuery query)
         {
-            return await _context.Orders.Include(x => x.User).Include(x => x.OrderProducts).ThenInclude(x => x.Product).ThenInclude(x => x.Brand).Where(x => x.UserId == userId).OrderByDescending(x => x.DateOfOrder).ToListAsync();
+            var baseQuery = _context.Orders.Include(x => x.User).Include(x => x.OrderProducts).ThenInclude(x => x.Product).ThenInclude(x => x.Brand).Where(x => x.UserId == userId).OrderByDescending(x => x.DateOfOrder);
+
+            var orders = await baseQuery
+                .Skip(query.PageSize * (query.PageNumber - 1))
+                .Take(query.PageSize)
+                .ToListAsync();
+
+            var totalItemsCount = baseQuery.Count();
+
+            var result = new PagedResult<Order>(orders, totalItemsCount, query.PageSize, query.PageNumber);
+
+            return result;
         }
 
         public async Task UpdateOrderAsync(Order order)

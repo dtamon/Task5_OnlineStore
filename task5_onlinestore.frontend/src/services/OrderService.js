@@ -22,8 +22,8 @@ export default class OrderService {
         return await response.json();
     }
 
-    async getUserOrders(token) {
-        const response = await fetch('/api/order/userOrders', {
+    async getUserOrders(token, pageNumber, pageSize) {
+        const response = await fetch(`/api/order/userOrders?pageNumber=${pageNumber}&pageSize=${pageSize}`, {
             method: 'GET',
             headers: {
                 'Authorization': 'Bearer ' + token,

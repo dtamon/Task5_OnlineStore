@@ -37,10 +37,10 @@ namespace Task5_OnlineStore.API.Controllers
 
         [HttpGet("userOrders")]
         [Authorize]
-        public async Task<IActionResult> GetUserOrders()
+        public async Task<IActionResult> GetUserOrders([FromQuery]OrderQuery query)
         {
             var userId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-            return Ok(await _orderService.GetUserOrdersAsync(userId));
+            return Ok(await _orderService.GetUserOrdersAsync(userId, query));
         }
 
         [HttpPut]

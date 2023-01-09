@@ -12,7 +12,7 @@ namespace Task5_OnlineStore.Core.Services.Interfaces
     public interface IOrderService
     {
         Task<PagedResult<OrderDto>> GetAllNewOrdersAsync(OrderQuery query);
-        Task<ICollection<OrderDto>> GetUserOrdersAsync(int userId);
+        Task<PagedResult<OrderDto>> GetUserOrdersAsync(int userId, OrderQuery query);
         Task CreateOrderAsync(int userId, IEnumerable<OrderProductDto> cartItems);
         Task UpdateOrderStatusAsync(OrderDto orderDto);
     }
