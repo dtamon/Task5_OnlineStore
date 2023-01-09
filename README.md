@@ -34,10 +34,11 @@ App allowing adding products to shopping cart and buying them for authorized use
 
 - Solution contains 4 layers ([Repository](https://github.com/dtamon/Task5_OnlineStore/tree/master/Task5_OnlineStore.DataAccess), [Service](https://github.com/dtamon/Task5_OnlineStore/tree/master/Task5_OnlineStore.Core), [API](https://github.com/dtamon/Task5_OnlineStore/tree/master/Task5_OnlineStore.API) and [Frontend](https://github.com/dtamon/Task5_OnlineStore/tree/master/task5_onlinestore.frontend))
 - I used Entity Framework Core for easy communication with database
+- Authorization is done with [JWT Bearer token](https://jwt.io/introduction)
 - For validation purpose I used [Fluent Validation](https://docs.fluentvalidation.net/en/latest/) library
 - For styling I used [Bootstrap](https://getbootstrap.com/) and [React-Bootstrap](https://react-bootstrap.github.io/)
 - [Controllers](https://github.com/dtamon/Task5_OnlineStore/tree/master/Task5_OnlineStore.API/Controllers) job is to handle requests from the Frontend
-- [Services](https://github.com/dtamon/Task5_OnlineStore/tree/master/Task5_OnlineStore.Core/Services) job is to call Repositories to access data that will be cast to [DTOs](https://github.com/dtamon/Task5_OnlineStore/tree/master/Task5_OnlineStore.Core/Dto) using [AutoMapper](https://github.com/dtamon/Task5_OnlineStore/blob/master/Task5_OnlineStore.Core/StoreMappingProfile.cs), and the other way to cast DTOs to [Entity Models](https://github.com/dtamon/Task5_OnlineStore/tree/master/Task5_OnlineStore.DataAccess/Entities) ready to be saved in database.
+- [Services](https://github.com/dtamon/Task5_OnlineStore/tree/master/Task5_OnlineStore.Core/Services) do all logic like mapping [DTOs](https://github.com/dtamon/Task5_OnlineStore/tree/master/Task5_OnlineStore.Core/Dto) using [AutoMapper](https://github.com/dtamon/Task5_OnlineStore/blob/master/Task5_OnlineStore.Core/StoreMappingProfile.cs), calling repositories for [Entity Models](https://github.com/dtamon/Task5_OnlineStore/tree/master/Task5_OnlineStore.DataAccess/Entities) or getting authorized user properties.
 - [Repositories](https://github.com/dtamon/Task5_OnlineStore/tree/master/Task5_OnlineStore.DataAccess/Repositories) job is to get needed data from database using LINQ, each repository corresponds to a table from the database
 
 ## Database (MS SQL Server)
