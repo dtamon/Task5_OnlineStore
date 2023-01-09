@@ -23,8 +23,7 @@ namespace Task5_OnlineStore.API.Controllers
         [Authorize]
         public async Task<IActionResult> CheckoutOrder(IEnumerable<OrderProductDto> cartItems)
         {
-            var userId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-            await _orderService.CreateOrderAsync(userId, cartItems);
+            await _orderService.CreateOrderAsync(cartItems);
             return Ok("Purchase made successfully");
         }
 
@@ -39,8 +38,7 @@ namespace Task5_OnlineStore.API.Controllers
         [Authorize]
         public async Task<IActionResult> GetUserOrders([FromQuery]OrderQuery query)
         {
-            var userId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-            return Ok(await _orderService.GetUserOrdersAsync(userId, query));
+            return Ok(await _orderService.GetUserOrdersAsync(query));
         }
 
         [HttpPut]

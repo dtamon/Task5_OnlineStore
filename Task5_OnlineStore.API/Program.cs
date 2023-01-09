@@ -9,6 +9,7 @@ using Task5_OnlineStore.Core.Dto;
 using Task5_OnlineStore.Core.Dto.Validators;
 using Task5_OnlineStore.Core.Middleware;
 using Task5_OnlineStore.Core.Seeder;
+using Task5_OnlineStore.Core.Services;
 using Task5_OnlineStore.Core.Services.Interfaces;
 using Task5_OnlineStore.Core.Services.Services;
 using Task5_OnlineStore.DataAccess.Context;
@@ -70,6 +71,10 @@ builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IBrandService, BrandService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
+
+//Http Context Accessor
+builder.Services.AddScoped<IUserContextService, UserContextService>();
+builder.Services.AddHttpContextAccessor();
 
 //FluentValidation and disable data annotations
 builder.Services.AddFluentValidationAutoValidation(config =>

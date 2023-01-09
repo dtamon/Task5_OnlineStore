@@ -21,17 +21,21 @@ namespace Task5_OnlineStore.Core.Services.Services
         private readonly IOrderRepository _orderRepository;
         private readonly IOrderProductRepository _orderProductRepository;
         private readonly IMapper _mapper;
+        private readonly IUserContextService _userContextService;
 
-        public OrderService(IProductRepository productRepository, IOrderRepository orderRepository, IOrderProductRepository orderProductRepository, IMapper mapper)
+        public OrderService(IProductRepository productRepository, IOrderRepository orderRepository, IOrderProductRepository orderProductRepository, IMapper mapper, IUserContextService userContextService)
         {
             _productRepository = productRepository;
             _orderRepository = orderRepository;
             _orderProductRepository = orderProductRepository;
             _mapper = mapper;
+            _userContextService = userContextService;
         }
 
-        public async Task CreateOrderAsync(int userId, IEnumerable<OrderProductDto> cartItems)
+        public async Task CreateOrderAsync(IEnumerable<OrderProductDto> cartItems)
         {
+            var userId = _userContextService.GetUserId;
+
             //Count total cost of ordered items
             var totalCost = 0.00;
             foreach (var item in cartItems)
@@ -89,8 +93,9 @@ namespace Task5_OnlineStore.Core.Services.Services
             return pagedResultOrders;
         }
 
-        public async Task<PagedResult<OrderDto>> GetUserOrdersAsync(int userId, OrderQuery query)
+        public async Task<PagedResult<OrderDto>> GetUserOrdersAsync(OrderQuery query)
         {
+            var userId = _userContextService.GetUserId;
             var orders = await _orderRepository.GetUserOrdersAsync(userId, query);
             var mappedOrders = new List<OrderDto>();
 
